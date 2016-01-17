@@ -2,6 +2,15 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+include('board.php');
+
+$page = 1;
+if(isset($_GET['page']) && $_GET['page'] > 1)
+{
+  $page = $_GET['page'];
+}
+
+$xml = holeBoardAlsXML($page);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -13,28 +22,14 @@ error_reporting(E_ALL);
     <link href="css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
-    <?php
-      $boardUrl = 'http://forum.mods.de/bb/xml/board.php?BID=14';
-
-      if(isset($_GET['page'])){
-        $page = htmlspecialchars($_GET['page']);
-        if($page < 1) { $page = 1; }
-        $boardUrl .= '&page=' . $page;
-      } else
-      {
-        $page = 1;
-      }
-      $xml = simplexml_load_file($boardUrl);
-   ?>
     <div class="container">
-
       <ul class="pager">
-          <li class="previous"><a href="<?php echo 'index.php?page=' . ($page -1); ?>">&lt;&lt;</a></li>
+          <li class="previous"><a href="<?php echo 'index.php?page=' . (($page > 1) ? ($page -1) : 1); ?>">&lt;&lt;</a></li>
           <li class="next"><a href="<?php echo 'index.php?page=' . ($page+1); ?>">&gt;&gt;</a></li>
       </ul>
 
       <?php foreach ($xml->threads->thread as $thread): ?>
-      <a href="<?php echo 'thread.php?id=' .$thread ; ?>">
+      <a href="<?php echo 'thread.php?id=' . $thread['id'] ; ?>">
         <div class="row">
           <div id="left" class="col-xs-8">
             <div class="row">
@@ -57,7 +52,7 @@ error_reporting(E_ALL);
                 if(isset($thread->lastpost)) {
                   echo (string) $thread->lastpost->post->user;
                 } else {
-                  echo '';
+                  echo ' ';
                 }
                 ?>
               </div>
@@ -77,7 +72,7 @@ error_reporting(E_ALL);
      <?php endforeach; ?>
 
      <ul class="pager">
-         <li class="previous"><a href="<?php echo 'index.php?page=' . ($page -1); ?>">&lt;&lt;</a></li>
+          <li class="previous"><a href="<?php echo 'index.php?page=' . (($page > 1) ? ($page -1) : 1); ?>">&lt;&lt;</a></li>
          <li class="next"><a href="<?php echo 'index.php?page=' . ($page+1); ?>">&gt;&gt;</a></li>
      </ul>
 
