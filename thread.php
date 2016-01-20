@@ -49,7 +49,7 @@ error_reporting(E_ALL);
           <div class="col-xs-8">
             <?php
             $parser->parse((string)$post->message->content);
-            echo $parser->getAsHtml();
+            echo nl2br($parser->getAsHtml());
             ?>
           </div>
         </div>

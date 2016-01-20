@@ -5,8 +5,7 @@ namespace JBBCode;
 require_once 'CodeDefinition.php';
 require_once 'CodeDefinitionBuilder.php';
 require_once 'CodeDefinitionSet.php';
-require_once 'validators/CssColorValidator.php';
-require_once 'validators/UrlValidator.php';
+
 
 /**
  * Provides a default set of common bbcode definitions.
@@ -36,27 +35,36 @@ class DefaultCodeDefinitionSet implements CodeDefinitionSet
         $builder = new CodeDefinitionBuilder('u', '<u>{param}</u>');
         array_push($this->definitions, $builder->build());
 
-        $urlValidator = new \JBBCode\validators\UrlValidator();
+        $builder = new CodeDefinitionBuilder('s', '<s>{param}</s>');
+        array_push($this->definitions, $builder->build());
 
         /* [url] link tag */
         $builder = new CodeDefinitionBuilder('url', '<a href="{param}">{param}</a>');
-        $builder->setParseContent(false)->setBodyValidator($urlValidator);
+        $builder->setParseContent(false);
         array_push($this->definitions, $builder->build());
 
         /* [url=http://example.com] link tag */
         $builder = new CodeDefinitionBuilder('url', '<a href="{option}">{param}</a>');
-        $builder->setUseOption(true)->setParseContent(true)->setOptionValidator($urlValidator);
+        $builder->setUseOption(true)->setParseContent(true);
         array_push($this->definitions, $builder->build());
 
         /* [img] image tag */
         $builder = new CodeDefinitionBuilder('img', '<img class="img-responsive" src="{param}" />');
-        $builder->setUseOption(false)->setParseContent(false)->setBodyValidator($urlValidator);
+        $builder->setUseOption(false)->setParseContent(false);
         array_push($this->definitions, $builder->build());
 
         /* [img=alt text] image tag */
         $builder = new CodeDefinitionBuilder('img', '<img "img-responsive" src="{param} alt="{option}" />');
         $builder->setUseOption(true);
         array_push($this->definitions, $builder->build());
+
+        $builder = new CodeDefinitionBuilder('code', '<pre>{param}</pre>');
+        $builder->setParseContent(false);
+        array_push($this->definitions, $builder->build());
+
+        // $builder = new CodeDefinitionBuilder('video', '<div class="embed-responsive  embed-responsive-4by3"><iframe class="embed-responsive-item" src="{param}"></iframe></div>');
+        // $builder->setParseContent(false);
+        // array_push($this->definitions, $builder->build());
 
         /* [color] color tag */
         // $builder = new CodeDefinitionBuilder('color', '<span style="color: {option}">{param}</span>');

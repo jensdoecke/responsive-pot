@@ -7,12 +7,11 @@ require_once('ModsCodeDefinitions.php');
 $parser = new JBBCode\Parser();
 $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
 
-$builder = new JBBCode\CodeDefinitionBuilder('code', '<pre>{param}</pre>');
-$builder->setParseContent(false);
-$parser->addCodeDefinition($builder->build());
-
 $builder = new QuoteCodeDefinition();
 $builder->setUseOption(true);
+$parser->addCodeDefinition($builder);
+
+$builder = new QuoteCodeDefinition();
 $parser->addCodeDefinition($builder);
 
 $builder = new YouTubeCodeDefinition();
@@ -36,7 +35,6 @@ function holeBoardAlsXML($page)
 function holeThreadAlsXML($threadId)
 {
   $threadUrl = URL . 'xml/thread.php?TID=' .$threadId;
-  echo $threadUrl;
   return simplexml_load_file($threadUrl);
 }
 
