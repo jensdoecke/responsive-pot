@@ -62,6 +62,12 @@ class DefaultCodeDefinitionSet implements CodeDefinitionSet
         $builder->setParseContent(false);
         array_push($this->definitions, $builder->build());
 
+        $builder = new CodeDefinitionBuilder('list', '<ul class="list-group">{param}</ul>');
+        array_push($this->definitions, $builder->build());
+
+        $builder = new CodeDefinitionBuilder('*', '<li class="list-group-item">{param}</li>');
+        array_push($this->definitions, $builder->build());
+
         // $builder = new CodeDefinitionBuilder('video', '<div class="embed-responsive  embed-responsive-4by3"><iframe class="embed-responsive-item" src="{param}"></iframe></div>');
         // $builder->setParseContent(false);
         // array_push($this->definitions, $builder->build());
