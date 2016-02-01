@@ -24,8 +24,8 @@ $xml = holeBoardAlsXML($page);
   <body>
     <div class="container">
       <ul class="pager">
-          <li class="previous"><a href="<?php echo 'index.php?page=' . (($page > 1) ? ($page -1) : 1); ?>">&lt;&lt;</a></li>
-          <li class="next"><a href="<?php echo 'index.php?page=' . ($page+1); ?>">&gt;&gt;</a></li>
+          <li class="previous"><a href="<?php echo 'index.php?page=' . prevPage($page); ?>">&lt;&lt;</a></li>
+          <li class="next"><a href="<?php echo 'index.php?page=' . nextPage($page); ?>">&gt;&gt;</a></li>
       </ul>
 
       <?php foreach ($xml->threads->thread as $thread): ?>
@@ -72,8 +72,8 @@ $xml = holeBoardAlsXML($page);
      <?php endforeach; ?>
 
      <ul class="pager">
-          <li class="previous"><a href="<?php echo 'index.php?page=' . (($page > 1) ? ($page -1) : 1); ?>">&lt;&lt;</a></li>
-         <li class="next"><a href="<?php echo 'index.php?page=' . ($page+1); ?>">&gt;&gt;</a></li>
+       <li class="previous"><a href="<?php echo 'index.php?page=' . prevPage($page); ?>">&lt;&lt;</a></li>
+       <li class="next"><a href="<?php echo 'index.php?page=' . nextPage($page); ?>">&gt;&gt;</a></li>
      </ul>
 
    </div>

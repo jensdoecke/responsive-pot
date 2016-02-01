@@ -32,10 +32,30 @@ function holeBoardAlsXML($page)
   return simplexml_load_file($boardUrl);
 }
 
-function holeThreadAlsXML($threadId)
+function holeThreadAlsXML($threadId, $page)
 {
-  $threadUrl = URL . 'xml/thread.php?TID=' .$threadId;
+  $threadUrl = URL . 'xml/thread.php?TID=' .$threadId . '&page=' . $page;
   return simplexml_load_file($threadUrl);
+}
+
+function prevPage($page)
+{
+  return (($page > 1) ? ($page -1) : 1);
+}
+
+function nextPage($page)
+{
+  return ($page+1);
+}
+
+function getNumericParam($param, $defaultValue)
+{
+  $retVal = $defaultValue;
+  if(isset($_GET[$param]) && is_numeric($_GET[$param]))
+  {
+      $retVal = $_GET[$param];
+  }
+  return $retVal;
 }
 
  ?>

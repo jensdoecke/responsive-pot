@@ -24,16 +24,11 @@ class Tokenizer
     public function __construct($str)
     {
         $strStart = 0;
-        $isInString = false;
-        
+
         for ($index = 0; $index < strlen($str); ++$index) {
-        	$currentChar = $str[$index]; 
-        	
-        	if('"' == $currentChar) {
-        		$isInString = !$isInString;
-        	}
-        	
-            if (!$isInString && (']' == $currentChar || '[' == $currentChar)) {
+        	$currentChar = $str[$index];
+
+            if (']' == $currentChar || '[' == $currentChar) {
                 /* Are there characters in the buffer from a previous string? */
                 if ($strStart < $index) {
                     array_push($this->tokens, substr($str, $strStart, $index - $strStart));

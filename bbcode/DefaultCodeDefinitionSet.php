@@ -38,6 +38,9 @@ class DefaultCodeDefinitionSet implements CodeDefinitionSet
         $builder = new CodeDefinitionBuilder('s', '<s>{param}</s>');
         array_push($this->definitions, $builder->build());
 
+        $builder = new CodeDefinitionBuilder('trigger', '<small>{param}</small>');
+        array_push($this->definitions, $builder->build());
+
         /* [url] link tag */
         $builder = new CodeDefinitionBuilder('url', '<a href="{param}">{param}</a>');
         $builder->setParseContent(false);
@@ -63,6 +66,10 @@ class DefaultCodeDefinitionSet implements CodeDefinitionSet
         array_push($this->definitions, $builder->build());
 
         $builder = new CodeDefinitionBuilder('list', '<ul class="list-group">{param}</ul>');
+        array_push($this->definitions, $builder->build());
+
+        $builder = new CodeDefinitionBuilder('list', '<ol class="list-group">{param}</ol>');
+        $builder->setUseOption(true);
         array_push($this->definitions, $builder->build());
 
         $builder = new CodeDefinitionBuilder('*', '<li class="list-group-item">{param}</li>');

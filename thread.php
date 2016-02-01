@@ -2,18 +2,23 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+$before = microtime(true);
+
+
     include('board.php');
 
 
-    if(isset($_GET['id']) && is_numeric($_GET['id']))
+    $page = getNumericParam('page', 1);
+    $threadId = getNumericParam('id', -1);
+
+    if($threadId === -1)
     {
-      $threadId = $_GET['id'];
-      $xml = holeThreadAlsXML($threadId);
-    }
-    else {
       header('Location: http://'. $_SERVER['SERVER_NAME'] . '/responsive-pot' );
       die();
     }
+
+    $xml = holeThreadAlsXML($threadId, $page);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -28,13 +33,13 @@ error_reporting(E_ALL);
 
     <div class="container">
       <ul class="pager">
-          <li class="previous"><a href="<?php echo 'index.php?page='; ?>">&lt;&lt;</a></li>
-          <li class="next"><a href="<?php echo 'index.php?page='; ?>">&gt;&gt;</a></li>
+          <li class="previous"><a href="<?php echo 'thread.php?id=' . $threadId . '&page=' . prevPage($page); ?>">&lt;&lt;</a></li>
+          <li class="next"><a href="<?php echo 'thread.php?id='. $threadId . '&page=' . nextPage($page); ?>">&gt;&gt;</a></li>
       </ul>
 
       <?php foreach ($xml->posts->post as $post): ?>
         <div class="row">
-          <div class="col-xs-4">
+          <div class="col-xs-3">
             <div class="row">
               <div class="col-xs-12">
                 <img class="img-responsive" src="<?php echo URL . (string)$post->avatar;?>" alt="<?php echo (string)$post->user;?>">
@@ -46,7 +51,7 @@ error_reporting(E_ALL);
               </div>
             </div>
           </div>
-          <div class="col-xs-8">
+          <div class="col-xs-9">
             <?php
             $parser->parse((string)$post->message->content);
             echo nl2br($parser->getAsHtml());
@@ -56,11 +61,15 @@ error_reporting(E_ALL);
      <?php endforeach; ?>
 
      <ul class="pager">
-          <li class="previous"><a href="<?php echo 'index.php?page='; ?>">&lt;&lt;</a></li>
-         <li class="next"><a href="<?php echo 'index.php?page='; ?>">&gt;&gt;</a></li>
+       <li class="previous"><a href="<?php echo 'thread.php?id=' . $threadId . '&page=' . prevPage($page); ?>">&lt;&lt;</a></li>
+       <li class="next"><a href="<?php echo 'thread.php?id='. $threadId . '&page=' . nextPage($page); ?>">&gt;&gt;</a></li>
      </ul>
-
    </div>
+
+   <?php
+   $after = microtime(true);
+   echo ($after-$before) . " sec/serialize\n";
+   ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
